@@ -1,3 +1,42 @@
+body {
+  background-color: #eee;
+}
+
 img {
   max-width: 100%;
+}
+
+header {
+  background-color: #4c2676;
+  color: #fff;
+  width: 100%;
+}
+
+.row > input {
+  width: 100%;
+  height: 2rem;
+  border: 1px solid #c1c1c1;
+  border-radius: 4px;
+  padding: 0 0.75rem;
+}
+
+.row {
+  margin-bottom: 1rem;
+}
+
+.save {
+  margin-left: auto;
+  background-color: #4c2676;
+  color: #fff;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: none;
+  padding: 0.25rem 0.5rem;
+}
+
+textarea {
+  width: 100%;
+  border: 1px solid #c1c1c1;
+  border-radius: 4px;
+  padding: 0.75rem;
 }
