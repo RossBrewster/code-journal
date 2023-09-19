@@ -67,4 +67,13 @@ function renderEntry(entry) {
   return $liRow;
 }
 
-renderEntry();
+const $entryList = document.querySelector('.entry-list');
+
+document.addEventListener('DOMContentLoaded', handleDOMContentLoaded);
+
+function handleDOMContentLoaded(e) {
+  for (let i = 0; i < data.entries.length; i++) {
+    const newLi = renderEntry(data.entries[i]);
+    $entryList.appendChild(newLi);
+  }
+}
