@@ -87,7 +87,6 @@ function toggleNoEntries() {
     $noEntries.className = 'no-entries hidden';
   }
 }
-
 toggleNoEntries();
 
 const $entryForm = document.querySelector("div[data-view='entry-form'");
@@ -103,4 +102,19 @@ function viewSwap(view) {
     $entryForm.setAttribute('class', 'hidden');
   }
 }
-viewSwap();
+
+const $entriesAnchor = document.querySelector('.show-entries');
+
+$entriesAnchor.addEventListener('click', handle$EntriesAnchorClick);
+
+function handle$EntriesAnchorClick(e) {
+  viewSwap('entries');
+}
+
+const $newEntryAnchor = document.querySelector('.new');
+
+$newEntryAnchor.addEventListener('click', handle$NewEntryAnchorClick);
+
+function handle$NewEntryAnchorClick(e) {
+  viewSwap('entry-form');
+}
