@@ -77,3 +77,15 @@ function handleDOMContentLoaded(e) {
     $entryList.appendChild(newLi);
   }
 }
+
+const $noEntries = document.querySelector('.no-entries');
+
+function toggleNoEntries() {
+  if (data.entries === []) {
+    $noEntries.className = 'no-entries';
+  } else {
+    $noEntries.className = 'no-entries hidden';
+  }
+}
+
+toggleNoEntries();
