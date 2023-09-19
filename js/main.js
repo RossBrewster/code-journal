@@ -24,7 +24,5 @@ function handleSubmission(e) {
   data.nextEntryId++;
   data.entries.unshift(newEntry);
   $image.setAttribute('src', 'images/placeholder-image-square.jpg');
-  $imgUrlInput.value = '';
-  $titleInput.value = '';
-  $notesInput.value = '';
+  $entry.reset();
 }

@@ -16,5 +16,5 @@ function handleBeforeUnload(e) {
 
 const previousEntriesJSON = localStorage.getItem('entries');
 if (previousEntriesJSON !== null) {
-  data = JSON.parse(localStorage.getItem('entries'));
+  data = JSON.parse(previousEntriesJSON);
 }
