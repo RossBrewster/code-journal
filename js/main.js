@@ -89,3 +89,18 @@ function toggleNoEntries() {
 }
 
 toggleNoEntries();
+
+const $entryForm = document.querySelector("div[data-view='entry-form'");
+const $entries = document.querySelector("div[data-view='entries'");
+
+function viewSwap(view) {
+  data.view = view;
+  if (view === 'entry-form') {
+    $entryForm.setAttribute('class', '');
+    $entries.setAttribute('class', 'hidden');
+  } else {
+    $entries.setAttribute('class', '');
+    $entryForm.setAttribute('class', 'hidden');
+  }
+}
+viewSwap();
