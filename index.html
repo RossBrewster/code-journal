@@ -28,8 +28,10 @@
     <main class="container">
       <div data-view="entry-form" class="journal-entry">
         <form>
-          <div class="column-full">
-            <h1>New Entry</h1>
+          <div class="row">
+            <div class="column-full">
+              <h1>New Entry</h1>
+            </div>
           </div>
           <div class="row">
             <div class="column-half">
@@ -58,13 +60,19 @@
             </div>
           </div>
           <div class="row">
-            <label for="notes">Notes</label>
+            <div class="column-full">
+              <label for="notes">Notes</label>
+            </div>
           </div>
           <div class="row">
-            <textarea required rows="5" id="notes" class=""></textarea>
+            <div class="column-full">
+              <textarea required rows="5" id="notes" class=""></textarea>
+            </div>
           </div>
           <div class="row">
-            <button type="submit" class="save">Save</button>
+            <div class="column-full align-right">
+              <button type="submit" class="save">Save</button>
+            </div>
           </div>
         </form>
       </div>
