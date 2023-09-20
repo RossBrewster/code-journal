@@ -76,10 +76,12 @@ function renderEntry(entry) {
 document.addEventListener('DOMContentLoaded', handleDOMContentLoaded);
 
 function handleDOMContentLoaded(e) {
-  for (let i = 0; i < data.entries.length; i++) {
-    const newLi = renderEntry(data.entries[i]);
-    $entryList.appendChild(newLi);
+  for (let i = 0; i <= data.entries.length; i++) {
     viewSwap(data.view);
+    if (data.entries.length !== []) {
+      const newLi = renderEntry(data.entries[i]);
+      $entryList.appendChild(newLi);
+    }
     toggleNoEntries();
   }
 }
