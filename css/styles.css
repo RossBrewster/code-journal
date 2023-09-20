@@ -88,4 +88,5 @@ a:visited {
 .fa-pencil {
   align-self: center;
   color: #4c2676;
+  cursor: pointer;
 }

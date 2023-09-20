@@ -123,3 +123,22 @@ $newEntryAnchor.addEventListener('click', handle$NewEntryAnchorClick);
 function handle$NewEntryAnchorClick(e) {
   viewSwap('entry-form');
 }
+
+$entryList.addEventListener('click', handleIconClick);
+const $formTitle = document.querySelector('.form-title');
+
+function handleIconClick(e) {
+  if (e.target.className === 'fa fa-pencil') {
+    viewSwap('entry-form');
+    data.editing =
+      data.entries[
+        data.entries.length -
+          e.target.closest('li').getAttribute('data-entry-id')
+      ];
+    $titleInput.value = data.editing.title;
+    $imgUrlInput.value = data.editing.image;
+    handleUrlInput();
+    $notesInput.value = data.editing.notes;
+    $formTitle.textContent = 'Edit Entry';
+  }
+}
