@@ -21,16 +21,29 @@ function handleSubmission(e) {
     image: $imgUrlInput.value,
     notes: $notesInput.value,
   };
-  newEntry.entryId = data.nextEntryId;
-  data.nextEntryId++;
-  data.entries.unshift(newEntry);
+
+  if (data.editing === null) {
+    newEntry.entryId = data.nextEntryId;
+    data.nextEntryId++;
+    data.entries.unshift(newEntry);
+    const $submission = renderEntry(newEntry);
+    $entryList.prepend($submission);
+  } else {
+    newEntry.entryId = data.editing.entryId;
+    data.entries[data.entries.length - newEntry.entryId] = newEntry;
+    const $submission = renderEntry(newEntry);
+    const $previousSubmissions = document.querySelectorAll('li');
+    const $oldElement =
+      $previousSubmissions[$previousSubmissions.length - newEntry.entryId];
+    $oldElement.replaceWith($submission);
+  }
+
   $image.setAttribute('src', 'images/placeholder-image-square.jpg');
   $entry.reset();
-
-  const $submission = renderEntry(newEntry);
-  $entryList.prepend($submission);
   viewSwap('entries');
   toggleNoEntries();
+  $formTitle.textContent = 'New Entry';
+  data.editing = null;
 }
 
 function renderEntry(entry) {
