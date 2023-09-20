@@ -2,6 +2,7 @@ const $image = document.querySelector('.url');
 const $imgUrlInput = document.querySelector('#photo-url');
 const $titleInput = document.querySelector('#entry-title');
 const $notesInput = document.querySelector('#notes');
+const $entryList = document.querySelector('.entry-list');
 
 $imgUrlInput.addEventListener('input', handleUrlInput);
 
@@ -25,6 +26,11 @@ function handleSubmission(e) {
   data.entries.unshift(newEntry);
   $image.setAttribute('src', 'images/placeholder-image-square.jpg');
   $entry.reset();
+
+  const submission = renderEntry(newEntry);
+  $entryList.prepend(submission);
+  viewSwap('entries');
+  toggleNoEntries();
 }
 
 /* <li class="row">
@@ -67,8 +73,6 @@ function renderEntry(entry) {
   return $liRow;
 }
 
-const $entryList = document.querySelector('.entry-list');
-
 document.addEventListener('DOMContentLoaded', handleDOMContentLoaded);
 
 function handleDOMContentLoaded(e) {
@@ -87,7 +91,6 @@ function toggleNoEntries() {
     $noEntries.className = 'no-entries hidden';
   }
 }
-toggleNoEntries();
 
 const $entryForm = document.querySelector("div[data-view='entry-form'");
 const $entries = document.querySelector("div[data-view='entries'");
