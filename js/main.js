@@ -33,18 +33,6 @@ function handleSubmission(e) {
   toggleNoEntries();
 }
 
-/* <li class="row">
-  <div class="column-half">
-    <img
-      src="https://media1.giphy.com/media/LfwMyRpf9X6q4/200.webp"
-      alt="dummy-gif" />
-  </div>
-  <div class="column-half">
-    <h3>A gif</h3>
-    <p>Snow White</p>
-  </div>
-</li> */
-
 function renderEntry(entry) {
   const $liRow = document.createElement('li');
   $liRow.setAttribute('class', 'row');
