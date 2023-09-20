@@ -27,8 +27,8 @@ function handleSubmission(e) {
   $image.setAttribute('src', 'images/placeholder-image-square.jpg');
   $entry.reset();
 
-  const submission = renderEntry(newEntry);
-  $entryList.prepend(submission);
+  const $submission = renderEntry(newEntry);
+  $entryList.prepend($submission);
   viewSwap('entries');
   toggleNoEntries();
 }
@@ -64,13 +64,13 @@ function renderEntry(entry) {
 document.addEventListener('DOMContentLoaded', handleDOMContentLoaded);
 
 function handleDOMContentLoaded(e) {
+  viewSwap(data.view);
+  toggleNoEntries();
   for (let i = 0; i < data.entries.length; i++) {
-    viewSwap(data.view);
     if (data.entries !== []) {
       const newLi = renderEntry(data.entries[i]);
       $entryList.appendChild(newLi);
     }
-    toggleNoEntries();
   }
 }
 
