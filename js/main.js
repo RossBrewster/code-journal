@@ -127,6 +127,8 @@ $entriesAnchor.addEventListener('click', handle$EntriesAnchorClick);
 
 function handle$EntriesAnchorClick(e) {
   viewSwap('entries');
+  $entry.reset();
+  $image.setAttribute('src', 'images/placeholder-image-square.jpg');
 }
 
 const $newEntryAnchor = document.querySelector('.new');
