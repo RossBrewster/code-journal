@@ -36,6 +36,7 @@ function handleSubmission(e) {
 function renderEntry(entry) {
   const $liRow = document.createElement('li');
   $liRow.setAttribute('class', 'row');
+  $liRow.setAttribute('data-entry-id', entry.entryId);
 
   const $imgDiv = document.createElement('div');
   $imgDiv.setAttribute('class', 'column-half');
@@ -50,9 +51,18 @@ function renderEntry(entry) {
   $noteText.setAttribute('class', 'column-half');
   $liRow.appendChild($noteText);
 
+  const $splitRow = document.createElement('div');
+  $splitRow.setAttribute('class', 'split-row');
+  $noteText.appendChild($splitRow);
+
   const $noteTitle = document.createElement('h3');
   $noteTitle.textContent = entry.title;
-  $noteText.appendChild($noteTitle);
+  $splitRow.appendChild($noteTitle);
+
+  const $pencilIcon = document.createElement('i');
+  $pencilIcon.setAttribute('class', 'fa fa-pencil');
+  $pencilIcon.setAttribute('aria-hidden', 'true');
+  $splitRow.appendChild($pencilIcon);
 
   const $noteContent = document.createElement('p');
   $noteContent.textContent = entry.notes;
