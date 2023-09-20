@@ -79,6 +79,8 @@ function handleDOMContentLoaded(e) {
   for (let i = 0; i < data.entries.length; i++) {
     const newLi = renderEntry(data.entries[i]);
     $entryList.appendChild(newLi);
+    viewSwap(data.view);
+    toggleNoEntries();
   }
 }
 
