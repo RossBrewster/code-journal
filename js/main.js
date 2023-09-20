@@ -21,21 +21,35 @@ function handleSubmission(e) {
     image: $imgUrlInput.value,
     notes: $notesInput.value,
   };
-  newEntry.entryId = data.nextEntryId;
-  data.nextEntryId++;
-  data.entries.unshift(newEntry);
+
+  if (data.editing === null) {
+    newEntry.entryId = data.nextEntryId;
+    data.nextEntryId++;
+    data.entries.unshift(newEntry);
+    const $submission = renderEntry(newEntry);
+    $entryList.prepend($submission);
+  } else {
+    newEntry.entryId = data.editing.entryId;
+    data.entries[data.entries.length - newEntry.entryId] = newEntry;
+    const $submission = renderEntry(newEntry);
+    const $previousSubmissions = document.querySelectorAll('li');
+    const $oldElement =
+      $previousSubmissions[$previousSubmissions.length - newEntry.entryId];
+    $oldElement.replaceWith($submission);
+  }
+
   $image.setAttribute('src', 'images/placeholder-image-square.jpg');
   $entry.reset();
-
-  const $submission = renderEntry(newEntry);
-  $entryList.prepend($submission);
   viewSwap('entries');
   toggleNoEntries();
+  $formTitle.textContent = 'New Entry';
+  data.editing = null;
 }
 
 function renderEntry(entry) {
   const $liRow = document.createElement('li');
   $liRow.setAttribute('class', 'row');
+  $liRow.setAttribute('data-entry-id', entry.entryId);
 
   const $imgDiv = document.createElement('div');
   $imgDiv.setAttribute('class', 'column-half');
@@ -50,9 +64,18 @@ function renderEntry(entry) {
   $noteText.setAttribute('class', 'column-half');
   $liRow.appendChild($noteText);
 
+  const $splitRow = document.createElement('div');
+  $splitRow.setAttribute('class', 'split-row');
+  $noteText.appendChild($splitRow);
+
   const $noteTitle = document.createElement('h3');
   $noteTitle.textContent = entry.title;
-  $noteText.appendChild($noteTitle);
+  $splitRow.appendChild($noteTitle);
+
+  const $pencilIcon = document.createElement('i');
+  $pencilIcon.setAttribute('class', 'fa fa-pencil');
+  $pencilIcon.setAttribute('aria-hidden', 'true');
+  $splitRow.appendChild($pencilIcon);
 
   const $noteContent = document.createElement('p');
   $noteContent.textContent = entry.notes;
@@ -104,6 +127,8 @@ $entriesAnchor.addEventListener('click', handle$EntriesAnchorClick);
 
 function handle$EntriesAnchorClick(e) {
   viewSwap('entries');
+  $entry.reset();
+  $image.setAttribute('src', 'images/placeholder-image-square.jpg');
 }
 
 const $newEntryAnchor = document.querySelector('.new');
@@ -112,4 +137,23 @@ $newEntryAnchor.addEventListener('click', handle$NewEntryAnchorClick);
 
 function handle$NewEntryAnchorClick(e) {
   viewSwap('entry-form');
+}
+
+$entryList.addEventListener('click', handleIconClick);
+const $formTitle = document.querySelector('.form-title');
+
+function handleIconClick(e) {
+  if (e.target.className === 'fa fa-pencil') {
+    viewSwap('entry-form');
+    data.editing =
+      data.entries[
+        data.entries.length -
+          e.target.closest('li').getAttribute('data-entry-id')
+      ];
+    $titleInput.value = data.editing.title;
+    $imgUrlInput.value = data.editing.image;
+    handleUrlInput();
+    $notesInput.value = data.editing.notes;
+    $formTitle.textContent = 'Edit Entry';
+  }
 }
