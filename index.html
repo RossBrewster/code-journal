@@ -19,9 +19,9 @@
     <header>
       <div class="container header">
         <div class="row">
-          <div class="column-full">
-            <h1>Code Journal</h1>
-          </div>
+          <div class="column-full"></div>
+          <h1 class="heading">Code Journal</h1>
+          <a class="show-entries" href="#">Entries</a>
         </div>
       </div>
     </header>
@@ -76,7 +76,20 @@
           </div>
         </form>
       </div>
-      <div data-view="entries" class="hidden"></div>
+      <div data-view="entries" class="hidden">
+        <div class="row">
+          <div class="column-full">
+            <div class="split-row">
+              <h1>Entries</h1>
+              <button class="new">NEW</button>
+            </div>
+            <p class="no-entries">No entries have been made.</p>
+          </div>
+        </div>
+        <div class="row">
+          <ul class="entry-list column-full"></ul>
+        </div>
+      </div>
     </main>
     <script src="js/data.js"></script>
     <script src="js/main.js"></script>
