@@ -3,6 +3,7 @@ const $imgUrlInput = document.querySelector('#photo-url');
 const $titleInput = document.querySelector('#entry-title');
 const $notesInput = document.querySelector('#notes');
 const $entryList = document.querySelector('.entry-list');
+const $delete = document.querySelector('.delete');
 
 $imgUrlInput.addEventListener('input', handleUrlInput);
 
@@ -137,6 +138,8 @@ $newEntryAnchor.addEventListener('click', handle$NewEntryAnchorClick);
 
 function handle$NewEntryAnchorClick(e) {
   viewSwap('entry-form');
+  $delete.className = 'delete hidden';
+  $formTitle.textContent = 'New Entry';
 }
 
 $entryList.addEventListener('click', handleIconClick);
@@ -155,5 +158,6 @@ function handleIconClick(e) {
     handleUrlInput();
     $notesInput.value = data.editing.notes;
     $formTitle.textContent = 'Edit Entry';
+    $delete.className = 'delete';
   }
 }

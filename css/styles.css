@@ -9,6 +9,32 @@ img {
 header {
   background-color: #4c2676;
   color: #fff;
+  position: relative;
+}
+
+.overlay.on {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: black;
+  opacity: 75%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay.off {
+  display: none;
+}
+
+.modal {
+  border: solid black 2px;
+  text-align: center;
+  background-color: white;
+  padding: 2em;
+  border-radius: 0.5em;
 }
 
 .heading {
@@ -71,6 +97,7 @@ a:visited {
 .split-row {
   display: flex;
   justify-content: space-between;
+  padding-right: 12px;
 }
 
 .new {
@@ -89,4 +116,9 @@ a:visited {
   align-self: center;
   color: #4c2676;
   cursor: pointer;
+}
+
+a.delete {
+  color: #dc2627;
+  text-decoration: underline;
 }
