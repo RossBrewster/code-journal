@@ -161,3 +161,10 @@ function handleIconClick(e) {
     $delete.className = 'delete';
   }
 }
+
+const $overlayModal = document.querySelector('.overlay');
+$delete.addEventListener('click', handleDeleteModalAppearance);
+
+function handleDeleteModalAppearance(e) {
+  $overlayModal.className = 'overlay on';
+}
