@@ -64,9 +64,9 @@ function renderEntry(entry) {
 document.addEventListener('DOMContentLoaded', handleDOMContentLoaded);
 
 function handleDOMContentLoaded(e) {
-  for (let i = 0; i <= data.entries.length; i++) {
+  for (let i = 0; i < data.entries.length; i++) {
     viewSwap(data.view);
-    if (data.entries.length !== []) {
+    if (data.entries !== []) {
       const newLi = renderEntry(data.entries[i]);
       $entryList.appendChild(newLi);
     }
