@@ -17,11 +17,11 @@ $entry.addEventListener('submit', handleSubmission);
 
 function handleSubmission(e) {
   e.preventDefault();
-  data.nextEntryId = 1;
-  for (let i = data.entries.length - 1; i >= 0; i--) {
-    data.entries[i].entryId = data.nextEntryId;
-    data.nextEntryId += 1;
-  }
+  // data.nextEntryId = 1;
+  // for (let i = data.entries.length - 1; i >= 0; i--) {
+  //   data.entries[i].entryId = data.nextEntryId;
+  //   data.nextEntryId += 1;
+  // }
   const newEntry = {
     title: $titleInput.value,
     image: $imgUrlInput.value,
@@ -96,7 +96,7 @@ function handleDOMContentLoaded(e) {
   viewSwap(data.view);
   toggleNoEntries();
   for (let i = 0; i < data.entries.length; i++) {
-    if (data.entries !== []) {
+    if (data.entries.length !== 0) {
       const newLi = renderEntry(data.entries[i]);
       $entryList.appendChild(newLi);
     }
@@ -124,8 +124,8 @@ function viewSwap(view) {
   } else {
     $entries.setAttribute('class', '');
     $entryForm.setAttribute('class', 'hidden');
-    toggleNoEntries();
   }
+  toggleNoEntries();
 }
 
 const $entriesAnchor = document.querySelector('.show-entries');
@@ -198,10 +198,10 @@ function handleConfirmation(e) {
   $image.setAttribute('src', 'images/placeholder-image-square.jpg');
   viewSwap('entries');
   data.editing = null;
-  data.nextEntryId = 1;
-  for (let i = data.entries.length - 1; i >= 0; i--) {
-    data.entries[i].entryId = data.nextEntryId;
-    $previousSubmissions[i].setAttribute('data-entry-id', data.nextEntryId);
-    data.nextEntryId++;
-  }
+  // data.nextEntryId = 1;
+  // for (let i = data.entries.length - 1; i >= 0; i--) {
+  //   data.entries[i].entryId = data.nextEntryId;
+  //   $previousSubmissions[i].setAttribute('data-entry-id', data.nextEntryId);
+  //   data.nextEntryId++;
+  // }
 }
