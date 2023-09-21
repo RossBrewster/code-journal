@@ -106,7 +106,7 @@ function handleDOMContentLoaded(e) {
 const $noEntries = document.querySelector('.no-entries');
 
 function toggleNoEntries() {
-  if (data.entries === []) {
+  if (data.entries.length === 0) {
     $noEntries.className = 'no-entries';
   } else {
     $noEntries.className = 'no-entries hidden';
@@ -124,6 +124,7 @@ function viewSwap(view) {
   } else {
     $entries.setAttribute('class', '');
     $entryForm.setAttribute('class', 'hidden');
+    toggleNoEntries();
   }
 }
 
@@ -196,7 +197,6 @@ function handleConfirmation(e) {
   $entry.reset();
   $image.setAttribute('src', 'images/placeholder-image-square.jpg');
   viewSwap('entries');
-  toggleNoEntries();
   data.editing = null;
   data.nextEntryId = 1;
   for (let i = data.entries.length - 1; i >= 0; i--) {
