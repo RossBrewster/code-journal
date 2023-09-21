@@ -168,3 +168,10 @@ $delete.addEventListener('click', handleDeleteModalAppearance);
 function handleDeleteModalAppearance(e) {
   $overlayModal.className = 'overlay on';
 }
+
+const $cancelButton = document.querySelector('.cancel');
+$cancelButton.addEventListener('click', handleCancelClick);
+
+function handleCancelClick(e) {
+  $overlayModal.className = 'overlay off';
+}
