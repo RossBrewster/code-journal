@@ -17,6 +17,11 @@ $entry.addEventListener('submit', handleSubmission);
 
 function handleSubmission(e) {
   e.preventDefault();
+  // data.nextEntryId = 1;
+  // for (let i = data.entries.length - 1; i >= 0; i--) {
+  //   data.entries[i].entryId = data.nextEntryId;
+  //   data.nextEntryId += 1
+  // }
   const newEntry = {
     title: $titleInput.value,
     image: $imgUrlInput.value,
@@ -174,4 +179,27 @@ $cancelButton.addEventListener('click', handleCancelClick);
 
 function handleCancelClick(e) {
   $overlayModal.className = 'overlay off';
+}
+
+const $confirmButton = document.querySelector('.confirm');
+$confirmButton.addEventListener('click', handleConfirmation);
+
+function handleConfirmation(e) {
+  data.nextEntryId = 1;
+  for (let i = data.entries.length - 1; i >= 0; i--) {
+    data.entries[i].entryId = data.nextEntryId;
+    data.nextEntryId++;
+  }
+
+  data.entries.splice(data.entries.length - data.editing.entryId, 1);
+  const $previousSubmissions = document.querySelectorAll('li');
+  const $submissionToDelete =
+    $previousSubmissions[$previousSubmissions.length - data.editing.entryId];
+  $submissionToDelete.remove();
+  $overlayModal.className = 'overlay off';
+
+  $entry.reset();
+  $image.setAttribute('src', 'images/placeholder-image-square.jpg');
+  viewSwap('entries');
+  toggleNoEntries();
 }
