@@ -17,11 +17,11 @@ $entry.addEventListener('submit', handleSubmission);
 
 function handleSubmission(e) {
   e.preventDefault();
-  // data.nextEntryId = 1;
-  // for (let i = data.entries.length - 1; i >= 0; i--) {
-  //   data.entries[i].entryId = data.nextEntryId;
-  //   data.nextEntryId += 1
-  // }
+  data.nextEntryId = 1;
+  for (let i = data.entries.length - 1; i >= 0; i--) {
+    data.entries[i].entryId = data.nextEntryId;
+    data.nextEntryId += 1;
+  }
   const newEntry = {
     title: $titleInput.value,
     image: $imgUrlInput.value,
@@ -145,6 +145,7 @@ function handle$NewEntryAnchorClick(e) {
   viewSwap('entry-form');
   $delete.className = 'delete hidden';
   $formTitle.textContent = 'New Entry';
+  data.editing = null;
 }
 
 $entryList.addEventListener('click', handleIconClick);
@@ -185,12 +186,6 @@ const $confirmButton = document.querySelector('.confirm');
 $confirmButton.addEventListener('click', handleConfirmation);
 
 function handleConfirmation(e) {
-  data.nextEntryId = 1;
-  for (let i = data.entries.length - 1; i >= 0; i--) {
-    data.entries[i].entryId = data.nextEntryId;
-    data.nextEntryId++;
-  }
-
   data.entries.splice(data.entries.length - data.editing.entryId, 1);
   const $previousSubmissions = document.querySelectorAll('li');
   const $submissionToDelete =
@@ -202,4 +197,11 @@ function handleConfirmation(e) {
   $image.setAttribute('src', 'images/placeholder-image-square.jpg');
   viewSwap('entries');
   toggleNoEntries();
+  data.editing = null;
+  data.nextEntryId = 1;
+  for (let i = data.entries.length - 1; i >= 0; i--) {
+    data.entries[i].entryId = data.nextEntryId;
+    $previousSubmissions[i].setAttribute('data-entry-id', data.nextEntryId);
+    data.nextEntryId++;
+  }
 }

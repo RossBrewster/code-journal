@@ -28,7 +28,6 @@ header {
   height: 100%;
   background-color: black;
   opacity: 75%;
-  position: fixed;
 }
 
 .overlay.off {
@@ -36,11 +35,8 @@ header {
 }
 
 .modal {
-  border: solid black 2px;
-  text-align: center;
   background-color: white;
   padding: 1rem 2rem;
-  padding-bottom: 1rem;
   border-radius: 0.5em;
   position: fixed;
 }
