@@ -17,11 +17,6 @@ $entry.addEventListener('submit', handleSubmission);
 
 function handleSubmission(e) {
   e.preventDefault();
-  // data.nextEntryId = 1;
-  // for (let i = data.entries.length - 1; i >= 0; i--) {
-  //   data.entries[i].entryId = data.nextEntryId;
-  //   data.nextEntryId += 1;
-  // }
   const newEntry = {
     title: $titleInput.value,
     image: $imgUrlInput.value,
@@ -36,12 +31,21 @@ function handleSubmission(e) {
     $entryList.prepend($submission);
   } else {
     newEntry.entryId = data.editing.entryId;
-    data.entries[data.entries.length - newEntry.entryId] = newEntry;
+    for (let i = 0; i < data.entries.length; i++) {
+      if (data.entries[i].entryId === newEntry.entryId) {
+        data.entries[i] = newEntry;
+      }
+    }
     const $submission = renderEntry(newEntry);
     const $previousSubmissions = document.querySelectorAll('li');
-    const $oldElement =
-      $previousSubmissions[$previousSubmissions.length - newEntry.entryId];
-    $oldElement.replaceWith($submission);
+    for (let i = 0; i < $previousSubmissions.length; i++) {
+      if (
+        $previousSubmissions[i].getAttribute('data-entry-id') ===
+        newEntry.entryId
+      ) {
+        $previousSubmissions[i].replaceWith($submission);
+      }
+    }
   }
 
   $image.setAttribute('src', 'images/placeholder-image-square.jpg');
@@ -155,11 +159,16 @@ const $formTitle = document.querySelector('.form-title');
 function handleIconClick(e) {
   if (e.target.className === 'fa fa-pencil') {
     viewSwap('entry-form');
-    data.editing =
-      data.entries[
-        data.entries.length -
-          e.target.closest('li').getAttribute('data-entry-id')
-      ];
+    const clickedEntryId = +e.target
+      .closest('li')
+      .getAttribute('data-entry-id');
+
+    for (let i = 0; i < data.entries.length; i++) {
+      if (data.entries[i].entryId === clickedEntryId) {
+        data.editing = data.entries[i];
+      }
+    }
+
     $titleInput.value = data.editing.title;
     $imgUrlInput.value = data.editing.image;
     handleUrlInput();
@@ -187,21 +196,26 @@ const $confirmButton = document.querySelector('.confirm');
 $confirmButton.addEventListener('click', handleConfirmation);
 
 function handleConfirmation(e) {
-  data.entries.splice(data.entries.length - data.editing.entryId, 1);
-  const $previousSubmissions = document.querySelectorAll('li');
-  const $submissionToDelete =
-    $previousSubmissions[$previousSubmissions.length - data.editing.entryId];
-  $submissionToDelete.remove();
-  $overlayModal.className = 'overlay off';
+  const editingEntryId = data.editing.entryId;
 
+  for (let i = 0; i < data.entries.length; i++) {
+    if (data.entries[i].entryId === editingEntryId) {
+      data.entries.splice(i, 1);
+    }
+  }
+
+  const $previousSubmissions = document.querySelectorAll('li');
+  for (let i = 0; i < $previousSubmissions.length; i++) {
+    if (
+      +$previousSubmissions[i].getAttribute('data-entry-id') === editingEntryId
+    ) {
+      $previousSubmissions[i].remove();
+    }
+  }
+
+  $overlayModal.className = 'overlay off';
   $entry.reset();
   $image.setAttribute('src', 'images/placeholder-image-square.jpg');
   viewSwap('entries');
   data.editing = null;
-  // data.nextEntryId = 1;
-  // for (let i = data.entries.length - 1; i >= 0; i--) {
-  //   data.entries[i].entryId = data.nextEntryId;
-  //   $previousSubmissions[i].setAttribute('data-entry-id', data.nextEntryId);
-  //   data.nextEntryId++;
-  // }
 }
