@@ -3,6 +3,7 @@ const $imgUrlInput = document.querySelector('#photo-url');
 const $titleInput = document.querySelector('#entry-title');
 const $notesInput = document.querySelector('#notes');
 const $entryList = document.querySelector('.entry-list');
+const $delete = document.querySelector('.delete');
 
 $imgUrlInput.addEventListener('input', handleUrlInput);
 
@@ -30,12 +31,21 @@ function handleSubmission(e) {
     $entryList.prepend($submission);
   } else {
     newEntry.entryId = data.editing.entryId;
-    data.entries[data.entries.length - newEntry.entryId] = newEntry;
+    for (let i = 0; i < data.entries.length; i++) {
+      if (data.entries[i].entryId === newEntry.entryId) {
+        data.entries[i] = newEntry;
+      }
+    }
     const $submission = renderEntry(newEntry);
     const $previousSubmissions = document.querySelectorAll('li');
-    const $oldElement =
-      $previousSubmissions[$previousSubmissions.length - newEntry.entryId];
-    $oldElement.replaceWith($submission);
+    for (let i = 0; i < $previousSubmissions.length; i++) {
+      if (
+        $previousSubmissions[i].getAttribute('data-entry-id') ===
+        newEntry.entryId
+      ) {
+        $previousSubmissions[i].replaceWith($submission);
+      }
+    }
   }
 
   $image.setAttribute('src', 'images/placeholder-image-square.jpg');
@@ -90,7 +100,7 @@ function handleDOMContentLoaded(e) {
   viewSwap(data.view);
   toggleNoEntries();
   for (let i = 0; i < data.entries.length; i++) {
-    if (data.entries !== []) {
+    if (data.entries.length !== 0) {
       const newLi = renderEntry(data.entries[i]);
       $entryList.appendChild(newLi);
     }
@@ -100,7 +110,7 @@ function handleDOMContentLoaded(e) {
 const $noEntries = document.querySelector('.no-entries');
 
 function toggleNoEntries() {
-  if (data.entries === []) {
+  if (data.entries.length === 0) {
     $noEntries.className = 'no-entries';
   } else {
     $noEntries.className = 'no-entries hidden';
@@ -119,6 +129,7 @@ function viewSwap(view) {
     $entries.setAttribute('class', '');
     $entryForm.setAttribute('class', 'hidden');
   }
+  toggleNoEntries();
 }
 
 const $entriesAnchor = document.querySelector('.show-entries');
@@ -137,6 +148,9 @@ $newEntryAnchor.addEventListener('click', handle$NewEntryAnchorClick);
 
 function handle$NewEntryAnchorClick(e) {
   viewSwap('entry-form');
+  $delete.className = 'delete hidden';
+  $formTitle.textContent = 'New Entry';
+  data.editing = null;
 }
 
 $entryList.addEventListener('click', handleIconClick);
@@ -145,15 +159,63 @@ const $formTitle = document.querySelector('.form-title');
 function handleIconClick(e) {
   if (e.target.className === 'fa fa-pencil') {
     viewSwap('entry-form');
-    data.editing =
-      data.entries[
-        data.entries.length -
-          e.target.closest('li').getAttribute('data-entry-id')
-      ];
+    const clickedEntryId = +e.target
+      .closest('li')
+      .getAttribute('data-entry-id');
+
+    for (let i = 0; i < data.entries.length; i++) {
+      if (data.entries[i].entryId === clickedEntryId) {
+        data.editing = data.entries[i];
+      }
+    }
+
     $titleInput.value = data.editing.title;
     $imgUrlInput.value = data.editing.image;
     handleUrlInput();
     $notesInput.value = data.editing.notes;
     $formTitle.textContent = 'Edit Entry';
+    $delete.className = 'delete';
   }
+}
+
+const $overlayModal = document.querySelector('.overlay');
+$delete.addEventListener('click', handleDeleteModalAppearance);
+
+function handleDeleteModalAppearance(e) {
+  $overlayModal.className = 'overlay on';
+}
+
+const $cancelButton = document.querySelector('.cancel');
+$cancelButton.addEventListener('click', handleCancelClick);
+
+function handleCancelClick(e) {
+  $overlayModal.className = 'overlay off';
+}
+
+const $confirmButton = document.querySelector('.confirm');
+$confirmButton.addEventListener('click', handleConfirmation);
+
+function handleConfirmation(e) {
+  const editingEntryId = data.editing.entryId;
+
+  for (let i = 0; i < data.entries.length; i++) {
+    if (data.entries[i].entryId === editingEntryId) {
+      data.entries.splice(i, 1);
+    }
+  }
+
+  const $previousSubmissions = document.querySelectorAll('li');
+  for (let i = 0; i < $previousSubmissions.length; i++) {
+    if (
+      +$previousSubmissions[i].getAttribute('data-entry-id') === editingEntryId
+    ) {
+      $previousSubmissions[i].remove();
+    }
+  }
+
+  $overlayModal.className = 'overlay off';
+  $entry.reset();
+  $image.setAttribute('src', 'images/placeholder-image-square.jpg');
+  viewSwap('entries');
+  data.editing = null;
 }
